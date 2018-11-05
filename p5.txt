@@ -4,55 +4,91 @@ Versión 8.0.1 - 6.11.2017
 
 Ejercicios
 
-Creación de repositorio para la práctica
-
-1. Con el navegador, dirı́gete al repositorio ptavi-p5 en la cuenta del
-profesor en GitHub1 y realiza un fork, de manera que consigas tener
-una copia del repositorio en tu cuenta de GitHub. Clona el repositorio
-que acabas de crear a local para poder editar los archivos. Trabaja a
-partir de ahora en ese repositorio, sincronizando los cambios que vayas
-realizando.
-
-Como tarde al final de la práctica, deberás realizar un push para subir
-tus cambios a tu repositorio en GitHub. En esta práctica, al contrario
-que con las demás, se recomienda hacer frecuentes commits, pero el
-push al final.
-
-Análisis de una sesión SIP
-
-Se ha capturado una sesión SIP con Ekiga (archivo sip.cap.gz), que
-se puede abrir con Wireshark2 . Se pide rellenar las cuestiones que se
-plantean en este guión en el fichero p5.txt que encontrarás también
-en el repositorio.
-
 2. Observa que las tramas capturadas corresponden a una sesión SIP
 con Ekiga, un cliente de VoIP para GNOME. Responde a las siguientes
 cuestiones:
 * ¿Cuántos paquetes componen la captura?
+	Nos vamos al final de la captura y observamos que hay 954 paquetes
+
 * ¿Cuánto tiempo dura la captura?
+	Al lado del numero de paquetes podemos observar el tiempo. Dura 56.149345 
+	segundos
+
 * ¿Qué IP tiene la máquina donde se ha efectuado la captura? ¿Se
 trata de una IP pública o de una IP privada? ¿Por qué lo sabes?
+	Se ha efectuado en la maquina con IP 192.168.1.34 porque si observamos los
+	demas paquetes es la ip comun que sale en todos. 
+	
+	Para IP privadas se reservan unos determinados rangos de dirrecciones:
+	De 10.0.0.0 a 10.255.255.255
+	172.16.0.0 a 172.31.255.255
+	192.168.0.0 a 192.168.255.255
+	169.254.0.0 a 169.254.255.255
+
+	Si observamos la 192.168.1.34 esta dentro de estos rangos, por lo tanto, es 
+	una IP privada.
+
 
 3. Antes de analizar las tramas, mira las estadı́sticas generales que aparecen en el menú de Statistics. En el apartado de jerarquı́a de protocolos (Protocol Hierarchy) se puede ver el porcentaje del tráfico
 correspondiente al protocolo TCP y UDP.
 * ¿Cuál de los dos es mayor? ¿Tiene esto sentido si estamos hablando
 de una aplicación que transmite en tiempo real?
+	Observamos UDP tiene un 5.1% y TCP un 2.1%, por tanto es mayor UDP.
+	Si, es consistente de una aplicacion que transmite a tiempo real porque UDP 
+	predomina sobre TCP. 
+	UDP se caracteriza por la puntualidad aunque no es fiable. Pero en estos casos
+	nos podemos permitir perder algunas paquetes, lo que nos interesa es que 
+	llegue lo mas rapido posible.
+	
 * ¿Qué otros protocolos podemos ver en la jerarquı́a de protocolos?
 ¿Cuales crees que son señal y cuales ruido?
+	Podemos ver que tambien tenemos el protocolo SIP con un 2.6% y RTP con un 			84.6%
+	
 
 4. Observa por encima el flujo de tramas en el menú de Statistics en IO
 Graphs. La captura que estamos viendo incluye desde la inicialización
 (registro) de la aplicación hasta su finalización, con una llamada entremedias.
 * Filtra por sip para conocer cuándo se envı́an paquetes SIP. ¿En
 qué segundos tienen lugar esos envı́os?
+	Del 7.343770 al 7.648107
+	Del 14.426793 al 14.610573
+	Del 16.233522 al 16.460741
+	Del 38.119195 al 39.229683
+	Del 55.694378 al 55.859934
+	Los mensajes SIP se establecen para el comienzo y la terminacion de la 
+	comunicacion. 
+
 * Y los paquetes con RTP, ¿cuándo se envı́an?
 [Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
+	os paquetes RTP se envian cuando no se envian los SIP a partir del segundo
+	17.169770, en el segundo 22 no se envian y luego siguen enviando del 
+	23.273887 hasta el 38.119145 que es cuando se empiezan a enviar otra vez los 
+	paquetes SIP. 
+	Esto es debido a que SIP, como hemos dicho anteriormente se encarga del 
+	inicio y del fin de la comunicacion. 
+	Los RTP se encargaran entonces de la transmision de voz y video a traves de 		
+	internet pero primero debemos establecer la comunicacion con SIP. 
+	Debido a esto, RTP se envia entre los segundos 17 y 38 porque del 7 al 16 se 		
+	inicia la comunicacion con SIP y del 38 al 55 se finaliza la comunicacion.
+
 
 5. Analiza las dos primeras tramas de la captura.
 * ¿Qué servicio es el utilizado en estas tramas?
+	Se utiliza el protocolo DNS(Sistema de nombres de dominio).Es un sistemas de
+	nomenclatura jerárquico para dispositivos conectados a redes IP como Internet 		
+	o una red privada. Se utiliza para poder recordar de manera sencilla las 
+	direcciones IP.
+
 * ¿Cuál es la dirección IP del servidor de nombres del ordenador
 que ha lanzado Ekiga?
+	Para ver el servidor de nombres del ordenador que ha lanzado Erika hay que 		
+	observar el primer paquete. Como sabemos que las transmisiones siempre las 		
+	inicia el cliente entonces deducimos que el servidor de nombres es la IP
+	a la que se envia: 80.58.61.250
+	
 * ¿Qué dirección IP (de ekiga.net) devuelve el servicio de nombres?
+	Devuelve la direccion 86.64.162.35, que es el servidor con el que Ekiga 	
+	quiere hablar, porque su DNS ya lo conoce.
 
 6. A continuación, hay más de una docena de tramas TCP/HTTP.
 * ¿Podrı́as decir la URL que se está pidiendo?
