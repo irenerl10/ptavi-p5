@@ -143,17 +143,29 @@ SIP?
 	El metodo REGISTER
 
 * Además de REGISTER, ¿podrı́as decir qué instrucciones SIP entiende el UA?
-[Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
 	Entiende INVITE, ACK, OPTIONS, BYE, CANCEL, NOTIFY, REFER, MESSAGE
 
 9. Fijémonos en las tramas siguientes a la número 46:
 * ¿Se registra con éxito en el primer intento?
+	No, porque en la trama 50 podemos observar que el servidor envia una trama
+	a la 192.168.1.34 con un 401 Unauthorized que significa que la solicitud 
+	requiere la autentificacion del usuario. Esta respuesta es emitida por UAs
+
 * ¿Cómo sabemos si el registro se ha realizado correctamente o no?
+	Porque en la trama 51 vuelve se vuelve a mandar el REGISTER ahora con la
+	autentificacion que el UA requeria. Sabemos que se hace correctamente porque
+	en la trama 54 el servidor envia un 200 OK.
+
 * ¿Podrı́as identificar las diferencias entre el primer intento y el
 segundo de registro? (fı́jate en el tamaño de los paquetes y mira
 a qué se debe el cambio)
+	Como he dicho anteriormente. La diferencia es la cabecera Authorization
+	donde el servidor se lo requeria con el error 401. En el primero sin esta
+	cabecera el tamaño es de 509 y en el segundo, al añadirla es de 698.
+	
 * ¿Cuánto es el valor del tiempo de expiración de la sesión? Indica
 las unidades.
+	Es de 3600 segundos
 
 10. Una vez registrados, podemos efectuar una llamada. Vamos a probar
 con el servicio de eco de Ekiga que nos permite comprobar si nos
