@@ -173,10 +173,25 @@ hemos conectado correctamente. El servicio de eco tiene la dirección
 sip:500@ekiga.net. Veamos el INVITE de cerca.
 * ¿Puede verse el nombre del que efectúa la llamada, ası́ como su
 dirección SIP?
+	El nombre del que llama lo vemos en la cabecera From. En este caso la
+	llamada la realiza Gregorio Robles y su direccion de SIP es grex@skiga.net
+	
 * ¿Qué es lo que contiene el cuerpo de la trama? ¿En qué formato/protocolo está?
+	El cuerpo de la trama lo vemos en la cabecera Massage Body. En este caso
+	envio el SDP version : 0
+
 * ¿Tiene éxito el primer intento? ¿Cómo lo sabes?
+	No tiene exito el primer intento porque observamos que la siguiente trama
+	es un mensaje 407 del servidor.
+	El mensaje 407 significa La solicitud requiere autenticación de usuario. 		
+	Esta respuesta es emitida por proxies.
+
 * ¿En qué se diferencia el segundo INVITE más abajo del primero?
 ¿A qué crees que se debe esto?
+	Se diferencia a que el servidor le pide a la 192.168.1.34 que requiere una
+	autentificacion del proxy. El segundo INVITE ha añadido la cabecera 
+	Proxy-Authorization donde tiene la informacion que le requeria el servidor.
+	
 
 11. Una vez conectado, estudia el intercambio de tramas.
 * ¿Qué protocolo(s) se utiliza(n)? ¿Para qué sirven estos protocolos?
