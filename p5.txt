@@ -256,29 +256,60 @@ calidad?
 -> RTP -> Stream Analysis.
 * ¿Cuánto valen el delta y el jitter para el primer paquete que
 ha llegado?
+	Vale 0 en los dos casos. 
+
 * ¿Podemos saber si éste es el primer paquete que nos han enviado?
+	El valor de marker en el paqete 113 esta en True, por lo tanto, sabemos
+	que ese ha sido el primer paquete enviado.
+
 * Los valores de jitter son menores de 10ms hasta un paquete
 dado. ¿Cuál?
+	Hasta el 246 incluido, el jitter de los paquetes es menor de 10ms.
+
 * ¿A qué se debe el cambio tan brusco del jitter?
+	El flujo en la red aumenta porque el ancho de banda disminuye. Para evitar 		
+	esto podriamos aumentar el valor de jitter-buffer pero dependiendo de 
+	lo que lo aumentemos podriamos dejar de tener una conversacion de calidad.
+	
 * ¿Es comparable el cambio en el valor de jitter con el del delta?
 ¿Cual es más grande?
+	No es comparable porque el jitter es la media de todas las deltas y el
+	cambio de tiempo es el tiempo de recepcion
+
 
 14. En Telephony selecciona el menú VoIP calls. Verás que se lista la
 llamada de voz IP capturada en una ventana emergente. Selecciona
 esa llamada y pulsa el botón Graph.
 * ¿Cuánto dura la conversación?
+	Dura 20,9 segundos.
+	
 * ¿Cuáles son sus SSRC? ¿Por qué hay varios SSRCs? ¿Hay CSRCs?
+	Hay dos SSRC porque hay dos flujos, es decir hay un SSRC para el audio
+	(0xbf4afd37) y otro de video (0x43306582)
+
+	No hay CSRCs porque no se agrupan los flujos.
 
 15. Identifica la trama donde se finaliza la conversación.
 * ¿Qué método SIP se utiliza?
+	Se utiliza el metodo BYE.
+
 * ¿En qué trama(s)?
+	En la trama 924, 925, 927, 933
+
 * ¿Por qué crees que se envı́a varias veces?
+	Porque no es capaz de alcanazar el puerto. Lo vemos en las tramas ICMP que +
+	informan sobre errores (Destination unreachable. Port unreachable)
 
 16. Finalmente, se cierra la aplicación de VozIP.
 * ¿Por qué aparece una instrucción SIP del tipo REGISTER?
+	Porque el tiempo de expieración es cero y se da debaja en el servicio.
+
 * ¿En qué trama sucede esto?
+	El la trama 950.
+
 * ¿En qué se diferencia con la instrucción que se utilizó con anterioridad (al principio de la sesión)?
-[Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
+	Se diferencia como hemos dicho en la pregunta anterior en el que el tiempo
+	de expiracion es 0 y antes era 3600.
 
 Captura de una sesión SIP
 
@@ -295,22 +326,39 @@ Ekiga para ver todo el proceso3 .
 19. Observa las diferencias en el inicio de la conversación entre el entorno
 del laboratorio y el del ejercicio anterior4 :
 * ¿Se utilizan DNS y STUN? ¿Por qué?
+	Si se utilizan porque son necesarios debido a que el DNS se encarga
+	de avergiaur en que IP estan las máquinas que yo quiero contactar
+	y el STUN lo se utilizo para ver si está detrás de un NAT.
+
 * ¿Son diferentes el registro y la descripción de la sesión?
+	Si, son distintos. EN el REGISTER podemos ver que no tenemos SDP. Donde
+	tenemos SDP es en el mensaje INVITE donde vienen "Time description" que nos
+	dice en que momento de la conversacion estamos, en este caso en el 0.0, es 
+	decir, la estamos empezando; "Media Description" donde nos describe la sesion 		
+	multimedia: audio 5062 RTP/AVP; Mas abajo podemos observar otro "Media
+	description" de video en el puerto 5064 RTP; Seguido de estos podemos
+	observar atributos que describen la sesion.
 
 20. Identifica las diferencias existentes entre esta conversación y la conversación anterior:
 * ¿Cuántos flujos tenemos?
 * ¿Cuál es su periodicidad?
+	Normalmente la periocidad suele ser 8000 Bytes en 1 segundo
+	Mandamos x bytes si hacemos una regla de tres:
+	nos sale y segundos aproximadamente
+
 * ¿Cuánto es el valor máximo del delta y los valores medios y
 máximo del jitter?
 * ¿Podrı́as reproducir la conversación desde Wireshark? ¿Cómo?
 Comprueba que poniendo un valor demasiado pequeño para el
 buffer de jitter, la conversación puede no tener la calidad necesaria.
+	Si. Habria que meterse en RTP
+	Luego Telephony-RTP- show all analayzer-decode
+
 * ¿Sabrı́as decir qué tipo de servicio ofrece sip:500@ekiga.net?
-[Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
+
 
 
 21. Filtra por los paquetes SIP de la captura y guarda únicamente los
 paquetes SIP como p5.pcapng. Abre el fichero guardado para cerciorarte de que lo has hecho bien. Deberás añadirlo al repositorio.
-[Al terminar el ejercicio es recomendable hacer commit de los ficheros modificados]
-[Al terminar la práctica, realiza un push para sincronizar tu repositorio GitHub]
+
 
