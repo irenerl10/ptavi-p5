@@ -311,7 +311,7 @@ esa llamada y pulsa el botón Graph.
 	Se diferencia como hemos dicho en la pregunta anterior en el que el tiempo
 	de expiracion es 0 y antes era 3600.
 
-Captura de una sesión SIP
+CAPTURA DE UNA SESIÓN SIP
 
 17. Dirı́gete a la web http://www.ekiga.net con el navegador y créate
 una cuenta. Lanza Ekiga, y configúralo con los datos de la cuenta
@@ -341,13 +341,17 @@ del laboratorio y el del ejercicio anterior4 :
 
 20. Identifica las diferencias existentes entre esta conversación y la conversación anterior:
 * ¿Cuántos flujos tenemos?
+	Tenemos dos flujos de audio.
+
 * ¿Cuál es su periodicidad?
 	Normalmente la periocidad suele ser 8000 Bytes en 1 segundo
-	Mandamos x bytes si hacemos una regla de tres:
-	nos sale y segundos aproximadamente
+	En este caso si miramos la gráfica observamos que se mandan
+	50 paquetes por segundo con una periodicidad de 0,2 segundos.
 
 * ¿Cuánto es el valor máximo del delta y los valores medios y
 máximo del jitter?
+	Para el primer flujo 27,309 y el segundo 37,083.
+
 * ¿Podrı́as reproducir la conversación desde Wireshark? ¿Cómo?
 Comprueba que poniendo un valor demasiado pequeño para el
 buffer de jitter, la conversación puede no tener la calidad necesaria.
@@ -355,6 +359,7 @@ buffer de jitter, la conversación puede no tener la calidad necesaria.
 	Luego Telephony-RTP- show all analayzer-decode
 
 * ¿Sabrı́as decir qué tipo de servicio ofrece sip:500@ekiga.net?
+	-Nos ofrece un servicio de audio, una canción.
 
 
 
